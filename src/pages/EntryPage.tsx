@@ -1,5 +1,4 @@
-import { IconUserEdit } from "@tabler/icons-react";
-import { IconDeviceImacCode } from "@tabler/icons-react";
+import { IconUserEdit, IconDeviceImacCode } from "@tabler/icons-react";
 
 const EntryPage = () => {
   return (
