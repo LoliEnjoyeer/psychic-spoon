@@ -1,8 +1,11 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <ESPAsyncWebServer.h>
 
-String serverName = "http://192.168.101.1:3000/";
+AsyncWebServer server(8080);
+
+String serverName = "http://192.168.101.41:3000/";
 
 unsigned long lastTime = 0;
 
@@ -54,10 +57,20 @@ void setWiFi() {
 
 }
 
+void setServer()
+{
+  server.on("/test", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", "ergergerg");
+  });
+
+  server.begin();
+}
+
 void setup()
 {
   Serial.begin(115200);
   setWiFi();
+  setServer();
 }
 
 void loop() {
