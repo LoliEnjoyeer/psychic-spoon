@@ -5,39 +5,8 @@
 
 AsyncWebServer server(8080);
 
-String serverName = "http://192.168.101.41:3000/";
-
-unsigned long lastTime = 0;
-
-void callAPI() {
-  if(WiFi.status() == WL_CONNECTED)
-  {
-    HTTPClient http;
-
-    String serverPath = serverName;
-    http.setTimeout(10000);
-    http.begin(serverPath.c_str());
-
-    int httpResponseCode = http.GET();
-    Serial.print(httpResponseCode);
-
-    if(httpResponseCode > 0) {
-      Serial.print("HTTP REsponse code: ");
-      Serial.println(httpResponseCode);
-      String payload = http.getString();
-      Serial.println(payload);
-    }
-    else {
-      Serial.print("Error code: ");
-      Serial.println(httpResponseCode);
-    }
-    http.end();
-  }
-  else {
-    Serial.println("WiFi Disconnected");
-  }
-  lastTime = millis();
-}
+String serverPath = "http://192.168.0.188:3000/";
+HTTPClient http;
 
 void setWiFi() {
   char* ssid = "candy";
@@ -53,14 +22,34 @@ void setWiFi() {
   Serial.println("\nConnected to the WiFi network");
   Serial.print("Local ESP32 IP: ");
   Serial.println(WiFi.localIP());
-  callAPI();
-
 }
+
+// void callAPI() {
+//     http.begin(serverPath.c_str());
+//     int httpResponseCode = http.GET();
+//     Serial.print(httpResponseCode);
+
+//     if(httpResponseCode > 0) {
+//       Serial.print("HTTP REsponse code: ");
+//       Serial.println(httpResponseCode);
+//       String payload = http.getString();
+//       Serial.println(payload);
+//     }
+//     else {
+//       Serial.print("Error code: ");
+//       Serial.println(httpResponseCode);
+//     }
+      //http.end();
+// }
+
+
 
 void setServer()
 {
-  server.on("/test", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", "ergergerg");
+  http.setTimeout(10000);
+
+  server.on("/ESPHello", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "text/plain", "ergergerg");
   });
 
   server.begin();
