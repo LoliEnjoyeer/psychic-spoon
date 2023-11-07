@@ -1,7 +1,35 @@
 import { IconPasswordUser, IconUsersGroup } from "@tabler/icons-react";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import dummyData from "../../data/supersecretadminpassword.js";
 
 const LoginPage = () => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
+
+  const handleSubmit = (user, pass) => {
+    if (user.length == 0 || pass.length == 0) {
+      window.alert("Error - username or password is empty.");
+    } else {
+      let arr = dummyData.filter((n) => {
+        if (n.username == user) {
+          return n;
+        }
+      });
+      if (arr.length == 0) {
+        window.alert("Error - username not found.");
+      } else {
+        console.log(arr);
+        if (arr[0].password == pass) {
+          navigate("/manage");
+        } else {
+          window.alert("Error - wrong password.");
+        }
+      }
+    }
+  };
+
   return (
     <>
       <div className="w-full h-full flex justify-center items-center">
@@ -19,6 +47,7 @@ const LoginPage = () => {
                 type="text "
                 placeholder="username..."
                 className="border rounded-md p-3"
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div>
@@ -29,18 +58,18 @@ const LoginPage = () => {
                 type="password"
                 placeholder="password..."
                 className="border rounded-md p-3"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
           <button
-            onClick={() => {
-              <Navigate to="/entry" />;
-            }}
             className="border shadow-md rounded-md w-32 h-12 mt-20 bg-blue-500 text-white
             hover:shadow-xl
             transform 
             transition 
-            duration-700"
+            duration-200"
+            type="submit"
+            onClick={() => handleSubmit(username, password)}
           >
             Login
           </button>

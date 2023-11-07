@@ -1,6 +1,9 @@
 import { IconUserEdit, IconDeviceImacCode } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
 
 const EntryPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full h-full justify-center items-center flex ">
       <div
@@ -11,6 +14,9 @@ const EntryPage = () => {
       transform
       transition
       duration-150"
+        onClick={() => {
+          navigate("users");
+        }}
       >
         <div className="w-full h-full bg-red-500 bg-opacity-20 flex justify-center items-center cursor-pointer group-hover flex-col">
           <p className="text-white text-5xl">
@@ -27,6 +33,9 @@ const EntryPage = () => {
         transform
         transition
         duration-150"
+        onClick={() => {
+          navigate("devices");
+        }}
       >
         <div className="w-full h-full bg-gray-500 bg-opacity-20 flex justify-center items-center cursor-pointer group-hover flex-col">
           <p className="text-white text-5xl">
