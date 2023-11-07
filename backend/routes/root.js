@@ -1,6 +1,5 @@
 'use strict'
 const axios = require('axios');
-var ip = '192.168.137.123:8080/';
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
