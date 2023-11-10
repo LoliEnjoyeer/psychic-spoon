@@ -37,7 +37,7 @@ const EntryPage = () => {
           navigate("devices");
         }}
       >
-        <div className="w-full h-full bg-gray-500 bg-opacity-20 flex justify-center items-center cursor-pointer group-hover flex-col">
+        <div className="w-full h-full bg-blue-500 bg-opacity-20 flex justify-center items-center cursor-pointer group-hover flex-col">
           <p className="text-white text-5xl">
             <IconDeviceImacCode size={64} />
           </p>
