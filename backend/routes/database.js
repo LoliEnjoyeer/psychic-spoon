@@ -29,6 +29,21 @@ module.exports = async function (fastify, opts) {
     })
     reply.code(200).send({users});
   })
+  fastify.post('/login', async (request, reply) => {
+    const bodyData = request.body.data;
+    let user = await userModel.find({ userName: bodyData.user, password: bodyData.pass}).exec()
+    .catch(err => {
+      
+    })
+    if(user.length != 0)
+    {
+      reply.code(200).send(true);
+    }
+    else
+    {
+      reply.code(404).send(false);
+    }
+  })
 }
 
 
