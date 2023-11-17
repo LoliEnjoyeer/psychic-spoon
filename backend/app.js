@@ -1,26 +1,43 @@
-'use strict'
+//Libs
+import Fastify from "fastify";
+import cors from "@fastify/cors";
+//Routes
+import miscRoutes from "./routes/misc.js";
+import userRoutes from "./routes/user.js";
+//Database
+import { db } from "./Database/config.js";
+import { userModel, ApiModel } from "./Database/models.js";
 
-const path = require('path')
-const AutoLoad = require('@fastify/autoload')
-const cors =  require('@fastify/cors')
+const fastify = Fastify({
+  logger: true,
+});
 
-module.exports.options = {}
+fastify.register(cors);
 
-module.exports = async function (fastify, opts) {
+// fastify.addHook("onResponse", async (req, res) => {
+//   const ApiLog = new ApiModel({
+//     id: req.id,
+//     method: req.raw.method,
+//     path: req.raw.url,
+//     statusCode: res.statusCode,
+//     timestamp: new Date(),
+//     ip: req.ip,
+//   });
 
-  ////
+//   try {
+//     await ApiLog.save();
+//   } catch (err) {
+//     console.log("Couldn't save Api Log");
+//   }
+// });
 
-  await fastify.register(cors, { 
-    // put your options here
-  })
+fastify.register(miscRoutes);
+fastify.register(userRoutes);
 
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'plugins'),
-    options: Object.assign({}, opts)
-  })
-
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes'),
-    options: Object.assign({}, opts)
-  })
-}
+fastify.listen({ port: 3000, host: "0.0.0.0" }, function (err, address) {
+  if (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+  fastify.log.info(`server listening on ${address}`);
+});

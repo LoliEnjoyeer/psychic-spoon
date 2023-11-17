@@ -4,16 +4,15 @@
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 
-AsyncWebServer server(8080);
+AsyncWebServer server(80);
 
-String serverPath = "http://192.168.0.188:3000/UpdateData";
+String serverPath = "http://192.168.137.1:3000/UpdateData";
 HTTPClient http;
 
 void setWiFi() {
   char* ssid = "candy";
   char* password = "12332111";
   WiFi.begin(ssid, password);
-  Serial.println(WiFi.status());
 
   while(WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
@@ -26,7 +25,7 @@ void setWiFi() {
 }
 
 unsigned long lastTime = 0;
-unsigned long timerDelay = 5000;
+unsigned long timerDelay = 20000;
 
 void setServer()
 {
@@ -47,11 +46,11 @@ void setup()
 }
 
 void loop() {
- if ((millis() - lastTime) > timerDelay) {
+    delay(20000);
     StaticJsonDocument<200> jsonDocument;
-    jsonDocument["data1"] = esp_random(10000);;
-    jsonDocument["data2"] = esp_random(10000);;
-    jsonDocument["data3"] = esp_random(10000);;
+    jsonDocument["data1"] = random(10000);;
+    jsonDocument["data2"] = random(10000);;
+    jsonDocument["data3"] = random(10000);;
 
     String jsonString;
     serializeJson(jsonDocument, jsonString);
@@ -73,4 +72,3 @@ void loop() {
 
     http.end();
  }
-}
