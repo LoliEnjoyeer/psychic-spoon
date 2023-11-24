@@ -21,9 +21,9 @@ const ApiSchema = mongoose.Schema({
 const ApiModel = mongoose.model("ApiLog", ApiSchema, "APIRequestLog");
 
 const ESPDataSchema = mongoose.Schema({
-  ESPData1: String,
-  ESPData2: String,
-  ESPData3: String,
+  ESPtemperature: Number,
+  ESPslpressure: Number,
+  ESPrain: Number,
 });
 
 const ESPDataModel = mongoose.model(
@@ -32,4 +32,17 @@ const ESPDataModel = mongoose.model(
   "DeviceData"
 );
 
-export { userModel, ApiModel, ESPDataModel };
+const DataAlertsSchema = mongoose.Schema({
+  dataType: String,
+  reason: String,
+  value: Number,
+  alertDate: mongoose.Schema.Types.Mixed,
+});
+
+const DataAlertsModel = mongoose.model(
+  "AlertReport",
+  DataAlertsSchema,
+  "Alert"
+);
+
+export { userModel, ApiModel, ESPDataModel, DataAlertsModel };

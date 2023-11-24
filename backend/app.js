@@ -2,7 +2,8 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 //Routes
-import miscRoutes from "./routes/misc.js";
+import dataRoutes from "./routes/data.js";
+import deviceRoutes from "./routes/device.js";
 import userRoutes from "./routes/user.js";
 //Database
 import { db } from "./Database/config.js";
@@ -31,8 +32,9 @@ fastify.register(cors);
 //   }
 // });
 
-fastify.register(miscRoutes);
+fastify.register(dataRoutes);
 fastify.register(userRoutes);
+fastify.register(deviceRoutes);
 
 fastify.listen({ port: 3000, host: "0.0.0.0" }, function (err, address) {
   if (err) {
