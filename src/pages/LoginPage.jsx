@@ -1,8 +1,6 @@
 import { IconPasswordUser, IconUsersGroup } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import axios from "axios";
-import dummyData from "../../data/supersecretadminpassword.js";
 
 const LoginPage = () => {
   const [username, setUsername] = useState();
@@ -14,12 +12,15 @@ const LoginPage = () => {
       window.alert("Error - username or password is empty.");
     } else {
       const data = { user, pass };
-      axios.post("http://192.168.137.1:3000/login", { data }).then((res) => {
-        if (res.data == true) {
-          navigate("/manage");
-        } else {
-          window.alert("Incorrect credentials. Try again!");
-        }
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: data,
+      };
+      fetch("192.168.137.1:3000/login", requestOptions).then((response) => {
+        response
+          ? navigate("/manage")
+          : window.alert("Incorrect credentials. Try again!");
       });
     }
   };
