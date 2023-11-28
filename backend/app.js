@@ -6,7 +6,7 @@ import dataRoutes from "./routes/data.js";
 import deviceRoutes from "./routes/device.js";
 import userRoutes from "./routes/user.js";
 //Database
-import { db } from "./Database/config.js";
+import { db, dateOptions } from "./Database/config.js";
 import { userModel, ApiModel } from "./Database/models.js";
 
 const fastify = Fastify({
@@ -21,7 +21,7 @@ fastify.register(cors);
 //     method: req.raw.method,
 //     path: req.raw.url,
 //     statusCode: res.statusCode,
-//     timestamp: new Date(),
+//     timestamp: new Date().toLocaleString("en-US", dateOptions),
 //     ip: req.ip,
 //   });
 

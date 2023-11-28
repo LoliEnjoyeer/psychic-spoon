@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
   userName: String,
-  date: Date,
+  date: mongoose.Schema.Types.Mixed,
   logged: Boolean,
   password: String,
 });
@@ -45,4 +45,17 @@ const DataAlertsModel = mongoose.model(
   "Alert"
 );
 
-export { userModel, ApiModel, ESPDataModel, DataAlertsModel };
+const IoTDeviceSchema = mongoose.Schema({
+  deviceName: String,
+  location: String,
+  isConnected: Boolean,
+  lastSeen: mongoose.Schema.Types.Mixed,
+});
+
+const IoTDeviceModel = mongoose.model(
+  "IoTDevice",
+  IoTDeviceSchema,
+  "IoTDevice"
+);
+
+export { userModel, ApiModel, ESPDataModel, DataAlertsModel, IoTDeviceModel };

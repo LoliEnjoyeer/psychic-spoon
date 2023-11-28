@@ -5,5 +5,14 @@ mongoose.connect(
 );
 
 const db = mongoose.connection;
+const dateOptions = {
+  weekday: "long",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  timeZoneName: "short",
+};
 
-export { db };
+export { db, dateOptions };

@@ -1,0 +1,11 @@
+IoTDevice:
+
+Backend:
+Backend req1get -> Halo działasz ESP?? ? Update isConnected : == -> Res 200 done -> Zaktualizowane dane prześlij tabela IoTDevice
+Backend req2post -> update deviceName ( ip ), lastSeen date, location 
+
+ESP:
+Start() -> backend req2post -> zmień lastSeen date ( i location jakoś )
+
+Front:
+Otwarcie zakładki IoTDevice -> Backend req1get -> await res -> wyświetlenie danych  

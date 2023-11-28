@@ -1,16 +1,7 @@
 import { ESPDataModel, DataAlertsModel } from "../Database/models.js";
-import { db } from "../Database/config.js";
+import { db, dateOptions } from "../Database/config.js";
 
 async function dataRoutes(fastify, options) {
-  const dateOptions = {
-    weekday: "long",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    timeZoneName: "short",
-  };
   fastify.get("/", async (req, res) => {
     return { hello: "world" };
   });
