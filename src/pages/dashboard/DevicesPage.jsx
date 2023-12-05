@@ -5,12 +5,11 @@ const DevicesPage = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("192.168.137.1:3000/data/showData/IoTDevice").then((response) =>
-      console.log(response.json())
-    );
+    fetch("192.168.137.1:3000/data/showData/IoTDevice", {}).then((response) => {
+      console.log(response);
+    });
   }, []);
 
-  console.log(data);
   return (
     <>
       <Navbar />

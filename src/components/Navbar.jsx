@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="mt-0 h-14 border-b-2 flex flex-row">
