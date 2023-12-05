@@ -19,7 +19,7 @@ const LoginPage = () => {
       };
       fetch("192.168.137.1:3000/login", requestOptions).then((response) => {
         response
-          ? navigate("/manage")
+          ? navigate("/devices")
           : window.alert("Incorrect credentials. Try again!");
       });
     }
