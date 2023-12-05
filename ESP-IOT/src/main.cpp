@@ -6,7 +6,8 @@
 
 AsyncWebServer server(80);
 
-String serverPath = "http://192.168.137.1:3000/UpdateData";
+String serverPath = "http://192.168.137.1:3000/data/UpdateData";
+String IoTDevice = "http://192.168.137.1:3000/IoTDevice";
 HTTPClient http;
 
 void setWiFi()
@@ -34,26 +35,44 @@ void setServer()
   http.setTimeout(10000);
 
   server.on("/ESPRequest", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-      StaticJsonDocument<100> data;
-    if (request->hasParam("message"))
-    {
-      data["message"] = request->getParam("message")->value();
-    }
-    else {
-      data["message"] = "No message parameter";
-    }
-    String response;
-    serializeJson(data, response);
-    request->send(200, "application/json", response); });
+  {
+    request->send(200, "plain/text", "srtghsrfth"); 
+  });
 
   server.begin();
+}
+
+void IoTDevice() 
+{
+  StaticJsonDocument<200> jsonDocument;
+  jsonDocument["deviceName"] = "ESP32-DataCollect";
+  jsonDocument["ip"] = WiFi.localIP();
+  jsonDocument["location"] = "Radom";
+
+  String jsonString;
+  serializeJson(jsonDocument, jsonString);
+
+  http.begin(IoTDevice.c_str());
+  http.addHeader("Content-Type", "application/json");
+  int httpResponseCode = http.POST(jsonString);
+  Serial.print(httpResponseCode);
+  if (httpResponseCode > 0)
+  {
+    Serial.print("I'm Alive");
+  }
+  else
+  {
+    Serial.print("Error code: ");
+    Serial.println(httpResponseCode);
+  }
+  http.end();
 }
 
 void setup()
 {
   Serial.begin(115200);
   setWiFi();
+  IoTDevice();
   setServer();
 }
 

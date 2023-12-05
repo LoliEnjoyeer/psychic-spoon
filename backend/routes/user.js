@@ -1,7 +1,7 @@
 import { userModel } from "../Database/models.js";
 
 async function userRoutes(fastify, options) {
-  fastify.post("/user/login", async (req, res) => {
+  fastify.post("/user/Login", async (req, res) => {
     const bodyData = req.body;
     console.log(JSON.stringify(req.body));
     let user = await userModel

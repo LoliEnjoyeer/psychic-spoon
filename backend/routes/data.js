@@ -1,4 +1,8 @@
-import { ESPDataModel, DataAlertsModel } from "../Database/models.js";
+import {
+  ESPDataModel,
+  DataAlertsModel,
+  IoTDeviceModel,
+} from "../Database/models.js";
 import { db, dateOptions } from "../Database/config.js";
 
 async function dataRoutes(fastify, options) {
@@ -6,7 +10,36 @@ async function dataRoutes(fastify, options) {
     return { hello: "world" };
   });
 
-  fastify.post("/UpdateData", async (req, res) => {
+  fastify.get("/data/showData/IoTDevice", async (req, res) => {
+    const { timeout = 3000 } = options;
+
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    await fetch("http://192.168.137.90:80/ESPRequest", {
+      ...options,
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        clearTimeout(id);
+        await IoTDeviceModel.updateOne(
+          { deviceName: "ESP32-DataCollect" },
+          { isConnected: true }
+        );
+      })
+      .catch(async (err) => {
+        clearTimeout(id);
+        await IoTDeviceModel.updateOne(
+          { deviceName: "ESP32-DataCollect" },
+          { isConnected: false }
+        );
+      });
+
+    const IoTDeviceData = await IoTDeviceModel.find();
+
+    res.code(200).send(IoTDeviceData);
+  });
+
+  fastify.post("/data/UpdateData", async (req, res) => {
     const data = req.body;
     //Temperature
     if (data.temperature > 25) {

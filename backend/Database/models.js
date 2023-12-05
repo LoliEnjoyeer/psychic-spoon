@@ -47,6 +47,7 @@ const DataAlertsModel = mongoose.model(
 
 const IoTDeviceSchema = mongoose.Schema({
   deviceName: String,
+  ip: String,
   location: String,
   isConnected: Boolean,
   lastSeen: mongoose.Schema.Types.Mixed,
