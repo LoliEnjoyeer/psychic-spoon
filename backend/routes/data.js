@@ -1,4 +1,6 @@
 import {
+  userModel,
+  ApiModel,
   ESPDataModel,
   DataAlertsModel,
   IoTDeviceModel,
@@ -8,6 +10,30 @@ import { db, dateOptions } from "../Database/config.js";
 async function dataRoutes(fastify, options) {
   fastify.get("/", async (req, res) => {
     return { hello: "world" };
+  });
+
+  fastify.get("/data/showData/Alerts", async (req, res) => {
+    const data = await DataAlertsModel.find({});
+
+    res.code(200).send(data);
+  });
+
+  fastify.get("/data/showData/Users", async (req, res) => {
+    const data = await userModel.find({});
+
+    res.code(200).send(data);
+  });
+
+  fastify.get("/data/showData/Api", async (req, res) => {
+    const data = await ApiModel.find({});
+
+    res.code(200).send(data);
+  });
+
+  fastify.get("/data/showData/DeviceData", async (req, res) => {
+    const data = await ESPDataModel.find({});
+
+    res.code(200).send(data);
   });
 
   fastify.get("/data/showData/IoTDevice", async (req, res) => {
