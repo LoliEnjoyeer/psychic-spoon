@@ -14,23 +14,23 @@ const fastify = Fastify({
 });
 
 fastify.register(cors);
+// APi Logging
+fastify.addHook("onResponse", async (req, res) => {
+  const ApiLog = new ApiModel({
+    id: req.id,
+    method: req.raw.method,
+    path: req.raw.url,
+    statusCode: res.statusCode,
+    timestamp: new Date().toLocaleString("en-US", dateOptions),
+    ip: req.ip,
+  });
 
-// fastify.addHook("onResponse", async (req, res) => {
-//   const ApiLog = new ApiModel({
-//     id: req.id,
-//     method: req.raw.method,
-//     path: req.raw.url,
-//     statusCode: res.statusCode,
-//     timestamp: new Date().toLocaleString("en-US", dateOptions),
-//     ip: req.ip,
-//   });
-
-//   try {
-//     await ApiLog.save();
-//   } catch (err) {
-//     console.log("Couldn't save Api Log");
-//   }
-// });
+  try {
+    await ApiLog.save();
+  } catch (err) {
+    console.log("Couldn't save Api Log");
+  }
+});
 
 fastify.register(dataRoutes);
 fastify.register(userRoutes);
